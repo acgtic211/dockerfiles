@@ -1,0 +1,14 @@
+--- server/config/express.js	2017-06-02 11:35:29.431624800 +0200
++++ ../sean/app/server/config/express.js	2017-06-02 11:23:17.142154700 +0200
+@@ -100,6 +100,11 @@
+             colors: true,
+             timings: true,
+             chunks: false
++          },
++          watchOptions: {
++              aggregateTimeout: 300,
++              poll: 1000,
++              ignored: /node_modules/
+           }
+         })
+       ],

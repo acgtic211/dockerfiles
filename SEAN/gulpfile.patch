@@ -1,0 +1,33 @@
+--- gulpfile.babel.js	2017-06-02 11:35:26.094739100 +0200
++++ ../sean/app/gulpfile.babel.js	2017-06-02 11:58:26.775939400 +0200
+@@ -298,7 +298,7 @@
+ gulp.task('start:server', () => {
+     process.env.NODE_ENV = process.env.NODE_ENV || 'development';
+     config = require(`./${serverPath}/config/environment`);
+-    nodemon(`-w ${serverPath} ${serverPath}`)
++    nodemon(`-L -w ${serverPath} ${serverPath}`)
+         .on('log', onServerLog);
+ });
+
+@@ -313,18 +313,18 @@
+     process.env.NODE_ENV = process.env.NODE_ENV || 'development';
+     config = require(`./${serverPath}/config/environment`);
+     // nodemon(`-w ${serverPath} --debug=5858 --debug-brk ${serverPath}`)
+-    nodemon(`-w ${serverPath} --inspect --debug-brk ${serverPath}`)
++    nodemon(`-L -w ${serverPath} --inspect --debug-brk ${serverPath}`)
+         .on('log', onServerLog);
+ });
+
+ gulp.task('watch', () => {
+     var testFiles = _.union(paths.client.test, paths.server.test.unit, paths.server.test.integration);
+
+-    plugins.watch(_.union(paths.server.scripts, testFiles))
++    plugins.watch(_.union(paths.server.scripts, testFiles),{ interval: 500, usePolling: true })
+         .pipe(plugins.plumber())
+         .pipe(lintServerScripts());
+
+-    plugins.watch(_.union(paths.server.test.unit, paths.server.test.integration))
++    plugins.watch(_.union(paths.server.test.unit, paths.server.test.integration),{ interval: 500, usePolling: true })
+         .pipe(plugins.plumber())
+         .pipe(lintServerTestScripts());
+ });

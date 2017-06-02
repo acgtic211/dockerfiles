@@ -1,0 +1,26 @@
+FROM ubuntu:latest
+
+RUN apt-get update && apt-get install -y locales && rm -rf /var/lib/apt/lists/* \
+    && localedef -i en_US -c -f UTF-8 -A /usr/share/locale/locale.alias en_US.UTF-8
+ENV LANG en_US.utf8
+
+RUN apt-get -qq update
+RUN apt-get install -y python-software-properties python python-setuptools
+RUN apt-get update
+RUN apt-get install -y nodejs
+RUN apt-get install -y nodejs-legacy
+RUN apt-get install -y git
+RUN apt-get install -y npm
+RUN mkdir -p /root/.config/configstore
+RUN chmod -R g+rwx /root
+RUN mkdir /src
+WORKDIR /src
+
+RUN npm install -g yo
+RUN npm install -g generator-angular-fullstack
+RUN npm install -g gulp
+
+CMD gulp serve
+
+EXPOSE 3000
+EXPOSE 9000
